@@ -7,7 +7,9 @@ A native NodeJS API for the GeoLite data from MaxMind.
 
 This product includes GeoLite data created by MaxMind, available from http://maxmind.com/
 
-[![Build Status](https://travis-ci.org/bluesmoon/node-geoip.svg?branch=master "node-geoip on Travis")](https://travis-ci.org/bluesmoon/node-geoip)
+**NOTE** You MUST update the data files after installation. The MaxMind license does not allow us to distribute
+the latest version of the data files with this package.  Follow the instructions under [update the datafiles](#2-update-the-datafiles-optional)
+for details.
 
 introduction
 ------------
@@ -31,13 +33,9 @@ really hard to get libgeoip built for Mac OSX without using the library from Mac
 why geoip-lite
 --------------
 
-So why are we called geoip-lite?  `npm` already has a [geoip package](http://search.npmjs.org/#/geoip) which provides a JavaScript
-binding around libgeoip from MaxMind.  The `geoip` package is fully featured and supports everything that the MaxMind APIs support,
-however, it requires `libgeoip` to be installed on your system.
-
-`geoip-lite` on the other hand is a fully JavaScript implementation.  It is not as fully featured as `geoip` however, by reducing its
-scope, it is about 40% faster at doing lookups.  On average, an IP to Location lookup should take 20 microseconds on a Macbook Pro.
-IPv4 addresses take about 6 microseconds, while IPv6 addresses take about 30 microseconds.
+`geoip-lite` is a fully JavaScript implementation of the MaxMind geoip API.  It is not as fully featured as bindings that use `libgeoip`.
+By reducing scope, this package is about 40% faster at doing lookups.  On average, an IP to Location lookup should take 20 microseconds on
+a Macbook Pro.  IPv4 addresses take about 6 microseconds, while IPv6 addresses take about 30 microseconds.
 
 synopsis
 --------
@@ -69,9 +67,9 @@ installation
 
 ### 2. update the datafiles (optional)
 
-Run `cd node_modules/geoip-lite && npm run-script updatedb license_key=YOUR_LICENSE_KEY` to update the data files. (Replace `YOUR_LICENSE_KEY` with your license key obtained from [maxmind.com](https://support.maxmind.com/account-faq/account-related/how-do-i-generate-a-license-key/))
+Run `cd node_modules/geoip-lite && npm run-script updatedb license_key=YOUR_LICENSE_KEY` to update the data files. (Replace `YOUR_LICENSE_KEY` with your license key obtained from [maxmind.com](https://support.maxmind.com/hc/en-us/articles/4407111582235-Generate-a-License-Key))
 
-You can create maxmind account [here](https://www.maxmind.com/en/geolite2/signup)
+You can create a maxmind account [here](https://www.maxmind.com/en/geolite2/signup)
 
 **NOTE** that this requires a lot of RAM.  It is known to fail on on a Digital Ocean or AWS micro instance.
 There are no plans to change this.  `geoip-lite` stores all data in RAM in order to be fast.
@@ -135,7 +133,7 @@ This package contains an update script that can pull the files from MaxMind and 
 A npm script alias has been setup to make this process easy. Please keep in mind this requires internet and MaxMind
 rate limits that amount of downloads on their servers.
 
-You will need, at minimum, a free license key obtained from [maxmind.com](https://support.maxmind.com/account-faq/account-related/how-do-i-generate-a-license-key/) to run the update script.
+You will need, at minimum, a free license key obtained from [maxmind.com](https://support.maxmind.com/hc/en-us/articles/4407111582235-Generate-a-License-Key) to run the update script.
 
 Package stores checksums of MaxMind data and by default only downloads them if checksums have changed.
 
@@ -183,6 +181,18 @@ geoip.startWatchingDataUpdate();
 
 This tool can be used with `npm run-script updatedb` to periodically update geo data on a running server.
 
+#### Environment variables
+
+The following environment variables can be set.
+
+```bash
+# Override the default node_modules/geoip-lite/data dir
+GEOTMPDIR=/some/path
+
+# Override the default node_modules/geoip-lite/tmp dir
+GEODATADIR=/some/path
+```
+
 Caveats
 -------
 
@@ -226,7 +236,7 @@ References
 Copyright
 ---------
 
-`geoip-lite` is Copyright 2011-2018 Philip Tellis <philip@bluesmoon.info> and the latest version of the code is
+`geoip-lite` is Copyright Philip Tellis <philip@bluesmoon.info> and other contributors, and the latest version of the code is
 available at https://github.com/bluesmoon/node-geoip
 
 License
